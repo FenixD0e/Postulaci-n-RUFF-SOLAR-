@@ -87,8 +87,8 @@ mtext(paste("Paneles colocados:", length(paneles_colocados)), side = 3, line = 0
 #Medidas
 x <- 5  #Ancho del techo
 y <- 3 #Alto del techo
-a <- 0 #Ancho del panel
-b <- 0  #Alto del panel
+a <- 2 #Ancho del panel
+b <- 1  #Alto del panel
 #Empaquetar los paneles
 paneles_colocados <- empaquetar(x, y, a, b)
 
