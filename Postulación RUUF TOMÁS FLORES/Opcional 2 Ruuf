@@ -1,0 +1,58 @@
+# Función para calcular cuántos paneles caben en un área considerando ambas orientaciones
+calcular_paneles <- function(ancho, alto, a, b) {
+  # Paneles en orientación (a, b)
+  num_paneles_1 <- (ancho %/% a) * (alto %/% b)
+  # Paneles en orientación (b, a)
+  num_paneles_2 <- (ancho %/% b) * (alto %/% a)
+  return(max(num_paneles_1, num_paneles_2))
+}
+
+# Función para colocar paneles en un rectángulo, considerando ambas orientaciones
+colocar_paneles <- function(x0, y0, ancho, alto, a, b) {
+  # Paneles en orientación (a, b)
+  for (i in seq(x0, x0 + ancho - a, by = a)) {
+    for (j in seq(y0, y0 + alto - b, by = b)) {
+      rect(i, j, i + a, j + b, col = "lightgreen", border = "darkgreen")
+    }
+  }
+  # Paneles en orientación (b, a)
+  for (i in seq(x0, x0 + ancho - b, by = b)) {
+    for (j in seq(y0, y0 + alto - a, by = a)) {
+      rect(i, j, i + b, j + a, col = "lightgreen", border = "darkgreen")
+    }
+  }
+  # Mostrar el número total de paneles colocados fuera del gráfico
+  mtext(paste("Paneles colocados:", length(paneles_colocados)), side = 3, line = 0.5, cex = 1.2, col = "black")
+}
+
+# Dimensiones de los rectángulos
+x <- 5   # Ancho de cada rectángulo
+y <- 3   # Alto de cada rectángulo
+superposicion <- 2   # Cantidad de unidades de superposición en X
+
+# Dimensiones de los paneles solares
+a <- 2
+b <- 1
+
+# Calcular la cantidad de paneles en cada rectángulo
+paneles_izq <- calcular_paneles(x, y, a, b)
+paneles_der <- calcular_paneles(x, y, a, b)
+
+# Paneles totales en la figura
+paneles_totales <- paneles_izq + paneles_der
+
+# Visualización del área y los paneles
+plot(0, 0, xlim = c(0, x + (x - superposicion)), ylim = c(0, y + y), type = "n", 
+     xlab = "Ancho", ylab = "Alto", main = "Distribución de Paneles Solares", asp = 1)
+
+# Dibujar la estructura general
+rect(0, 0, x, y, border = "blue", lwd = 2)  # Primer rectángulo
+rect(superposicion, y, x + superposicion, y + y, border = "blue", lwd = 2)  # Segundo rectángulo
+
+# Colocar paneles en cada rectángulo
+colocar_paneles(0, 0, x, y, a, b)  # Primer rectángulo
+colocar_paneles(superposicion, y, x, y, a, b)  # Segundo rectángulo
+
+# Resultado final
+cat("Cantidad de paneles solares que caben en la figura:", paneles_totales, "\n")
+
